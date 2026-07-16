@@ -5,6 +5,7 @@ app/node_modules/
 # Expo
 app/.expo/
 app/dist/
+app/dist-check/
 app/web-build/
 *.orig.*
 
