@@ -22,6 +22,8 @@ export interface Note {
 interface AppDataValue {
   events: CalendarEvent[];
   notes: Note[];
+  selectedDate: string;
+  setSelectedDate: (date: string) => void;
   addEvent: (e: Omit<CalendarEvent, "id">) => CalendarEvent;
   updateEvent: (id: string, patch: Partial<CalendarEvent>) => void;
   removeEvent: (id: string) => void;
@@ -52,11 +54,14 @@ const seedNotes: Note[] = [
 export function AppDataProvider({ children }: { children: React.ReactNode }) {
   const [events, setEvents] = useState<CalendarEvent[]>(seedEvents);
   const [notes, setNotes] = useState<Note[]>(seedNotes);
+  const [selectedDate, setSelectedDate] = useState<string>("2023-10-11");
 
   const value = useMemo<AppDataValue>(
     () => ({
       events,
       notes,
+      selectedDate,
+      setSelectedDate,
       addEvent: (e) => {
         const created = { ...e, id: uid() };
         setEvents((prev) => [...prev, created]);
@@ -77,7 +82,7 @@ export function AppDataProvider({ children }: { children: React.ReactNode }) {
       removeNote: (id) => setNotes((prev) => prev.filter((n) => n.id !== id)),
       eventsByDate: (date) => events.filter((e) => e.date === date),
     }),
-    [events, notes]
+    [events, notes, selectedDate]
   );
 
   return <AppDataContext.Provider value={value}>{children}</AppDataContext.Provider>;
