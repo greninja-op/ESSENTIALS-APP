@@ -1,0 +1,388 @@
+﻿
+=== CALL: fetch_screen_code ===
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scribbles Calendar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;800;900&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Spline+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#a72683",
+                      "on-surface-variant": "#54414b",
+                      "tertiary": "#656100",
+                      "error-container": "#ffdad6",
+                      "primary-fixed-dim": "#ffaedc",
+                      "on-surface": "#1c1b1b",
+                      "error": "#ba1a1a",
+                      "secondary-container": "#0fceff",
+                      "inverse-primary": "#ffaedc",
+                      "surface-container-high": "#ebe7e7",
+                      "on-primary-fixed-variant": "#880068",
+                      "on-background": "#1c1b1b",
+                      "background": "#fcf8f8",
+                      "inverse-on-surface": "#f3f0ef",
+                      "surface-tint": "#a72683",
+                      "surface-dim": "#dcd9d9",
+                      "surface-container": "#f1edec",
+                      "primary-fixed": "#ffd8eb",
+                      "on-error": "#ffffff",
+                      "surface-container-low": "#f6f3f2",
+                      "on-primary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#4c4900",
+                      "tertiary-fixed-dim": "#d3cb00",
+                      "outline": "#87717c",
+                      "surface-container-highest": "#e5e2e1",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed": "#f1e800",
+                      "on-tertiary-fixed": "#1e1c00",
+                      "surface": "#fcf8f8",
+                      "on-secondary-fixed-variant": "#004d62",
+                      "secondary-fixed": "#b9eaff",
+                      "secondary": "#006781",
+                      "tertiary-container": "#b0a900",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#313030",
+                      "on-secondary-container": "#00546a",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-container": "#3f3c00",
+                      "secondary-fixed-dim": "#58d5ff",
+                      "surface-variant": "#e5e2e1",
+                      "on-secondary-fixed": "#001f29",
+                      "surface-bright": "#fcf8f8",
+                      "primary-container": "#ff71ce",
+                      "outline-variant": "#dabfcc",
+                      "on-primary-fixed": "#3b002c",
+                      "on-primary-container": "#730058"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "lg": "40px",
+                      "margin": "24px",
+                      "xs": "8px",
+                      "xl": "64px",
+                      "gutter": "20px",
+                      "unit": "4px",
+                      "md": "24px",
+                      "sm": "16px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Epilogue"
+                      ],
+                      "label-bold": [
+                              "Spline Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-md": [
+                              "Epilogue"
+                      ],
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "800"
+                              }
+                      ],
+                      "label-bold": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        .wonky-border {
+            border: 3px solid #000;
+            border-radius: 4px 12px 6px 10px / 10px 4px 12px 6px;
+        }
+        .wonky-btn {
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+            border-radius: 8px 4px 10px 6px / 6px 10px 4px 8px;
+            transition: all 0.1s ease;
+        }
+        .wonky-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+        }
+        .wonky-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+        }
+        .scribble-bg {
+            background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
+            background-size: 8px 8px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-zinc-900 docked full-width top-0 border-b-[3px] border-black dark:border-white border-b-[4px] border-black dark:border-zinc-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] flex justify-between items-center w-full px-6 py-4 sticky z-[100] wonky-border !border-x-0 !border-t-0 rounded-none mb-8 mt-2 mx-2 !w-[calc(100%-16px)]">
+<button class="text-fuchsia-500 dark:text-fuchsia-400 hover:bg-yellow-300 dark:hover:bg-yellow-500 hover:rotate-1 transition-transform active:translate-x-1 active:translate-y-1 active:shadow-none p-2 rounded-full border-2 border-transparent hover:border-black wonky-border !border-2">
+<span class="material-symbols-outlined text-3xl block font-black">menu</span>
+</button>
+<h1 class="font-['Epilogue'] font-black uppercase tracking-tighter text-2xl font-black text-black dark:text-white rotate-[-2deg]">
+            My Scribbles
+        </h1>
+<div class="w-12 h-12 rounded-full wonky-border overflow-hidden bg-primary-fixed flex items-center justify-center rotate-[3deg] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+<img alt="User playful hand-drawn portrait" class="w-full h-full object-cover" data-alt="vibrant abstract hand-drawn style portrait of a person with colorful squiggles and bold outlines in pop art style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7x3AJvIDl2hWCtcj0OSWEP9jfss_2avA8ELDSA7a51-r3M65VIMbDm4g-wQxZfJAwbeTSl6QWXi6MjChcBRqOiQIGqpkvxwFJL2NsKM7ZfueelQjkuGtGrMZHhniO4gSHEOlgTZjJ3VGF-TzJZSvLsQWz23fhHY0bY633jXpJIaQR_08Bc6RT1G-Ed-241_Bv9NCC4_mlZ1Y6M0WqYTVPzNXnAF_NFk4Z0Y2-it04yCKrfdo-IwW8QQ12MMBF_Kjqe_COrDs84fQ"/>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col items-center w-full max-w-5xl mx-auto px-4 md:px-8 pb-32 pt-4">
+<!-- Calendar Header -->
+<div class="w-full flex justify-between items-center mb-8 px-2 relative">
+<!-- Decorative scribble behind title -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-16 bg-yellow-300/40 rounded-full blur-xl -z-10 rotate-[-3deg]"></div>
+<button class="wonky-btn bg-white w-12 h-12 flex items-center justify-center text-primary rotate-[-4deg]">
+<span class="material-symbols-outlined font-black text-2xl">arrow_back_ios_new</span>
+</button>
+<div class="text-center flex flex-col items-center">
+<h2 class="font-display-lg text-display-lg text-black rotate-[2deg] relative inline-block">
+                    OCTOBER
+                    <span class="absolute -bottom-2 left-0 w-full h-3 bg-secondary-container -z-10 skew-x-[-20deg] rotate-[-2deg]"></span>
+</h2>
+<p class="font-label-bold text-label-bold text-on-surface-variant mt-2 rotate-[-1deg] bg-white px-4 py-1 wonky-border !border-2">2023</p>
+</div>
+<button class="wonky-btn bg-white w-12 h-12 flex items-center justify-center text-primary rotate-[4deg]">
+<span class="material-symbols-outlined font-black text-2xl">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Calendar Grid -->
+<div class="w-full bg-white wonky-border p-4 md:p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative scribble-bg">
+<!-- Tape decoration -->
+<div class="absolute -top-3 -left-3 w-12 h-6 bg-pink-400 rotate-[-15deg] border-2 border-black z-10 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
+<div class="absolute -top-3 -right-3 w-12 h-6 bg-cyan-300 rotate-[20deg] border-2 border-black z-10 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
+<!-- Days of week -->
+<div class="grid grid-cols-7 gap-2 md:gap-4 mb-4 text-center font-headline-md text-sm md:text-xl text-black">
+<div class="text-primary pb-2 border-b-4 border-black rotate-[-2deg]">SUN</div>
+<div class="pb-2 border-b-4 border-black rotate-[1deg]">MON</div>
+<div class="pb-2 border-b-4 border-black rotate-[3deg]">TUE</div>
+<div class="pb-2 border-b-4 border-black rotate-[-1deg]">WED</div>
+<div class="pb-2 border-b-4 border-black rotate-[2deg]">THU</div>
+<div class="pb-2 border-b-4 border-black rotate-[-3deg]">FRI</div>
+<div class="text-primary pb-2 border-b-4 border-black rotate-[1deg]">SAT</div>
+</div>
+<!-- Calendar Days Grid -->
+<div class="grid grid-cols-7 gap-2 md:gap-4 auto-rows-fr">
+<!-- Week 1 -->
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">24</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">25</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">26</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">27</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">28</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">29</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">30</span></div>
+<!-- Week 2 -->
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors relative">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">1</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors relative group">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">2</span>
+<div class="mt-auto w-full flex justify-center pb-1">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+</div>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">3</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">4</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors relative">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">5</span>
+<div class="mt-auto flex gap-1 justify-center pb-1">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+</div>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">6</span>
+</div>
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">7</span>
+</div>
+<!-- Week 3 -->
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">8</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">9</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">10</span>
+</div>
+<!-- Current Day -->
+<div class="aspect-square bg-secondary-fixed wonky-border flex flex-col p-1 md:p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] scale-[1.05] z-10 rotate-[2deg]">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">11</span>
+<span class="material-symbols-outlined text-secondary text-xl md:text-3xl m-auto" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">12</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">13</span>
+</div>
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">14</span>
+</div>
+<!-- Week 4 -->
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">15</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">16</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors relative">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">17</span>
+<!-- Hand drawn scribble circle around date -->
+<svg class="absolute top-1 left-1 w-10 h-10 pointer-events-none text-tertiary" viewbox="0 0 100 100">
+<path d="M 50,10 C 70,10 90,30 90,50 C 90,70 70,90 50,90 C 30,90 10,70 10,50 C 10,30 30,10 55,8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="4"></path>
+</svg>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">18</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">19</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">20</span>
+</div>
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors relative">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">21</span>
+<span class="material-symbols-outlined text-primary text-sm md:text-xl absolute bottom-1 right-1">celebration</span>
+</div>
+<!-- Week 5 -->
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">22</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">23</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">24</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">25</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">26</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">27</span>
+</div>
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">28</span>
+</div>
+<!-- Week 6 -->
+<div class="aspect-square bg-primary-fixed wonky-border flex flex-col p-1 md:p-2 hover:bg-primary-fixed-dim transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">29</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">30</span>
+</div>
+<div class="aspect-square bg-white wonky-border flex flex-col p-1 md:p-2 hover:bg-surface-container transition-colors">
+<span class="font-headline-md text-body-lg md:text-headline-md text-black">31</span>
+</div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">1</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">2</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">3</span></div>
+<div class="aspect-square bg-surface-container-high wonky-border !border-2 flex flex-col p-1 md:p-2 opacity-50"><span class="font-label-bold text-label-bold">4</span></div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-white dark:bg-zinc-900 border-t-[3px] border-black rounded-t-[20px] border-t-[4px] border-black dark:border-white shadow-[0px_-4px_0px_0px_rgba(0,0,0,1)]">
+<!-- Active Tab: Month -->
+<button class="flex flex-col items-center justify-center bg-cyan-300 dark:bg-cyan-600 text-black border-[3px] border-black rounded-[12px] p-2 rotate-[2deg] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-pink-200 dark:hover:bg-pink-800 transition-colors active:scale-90 duration-100 font-['Epilogue'] font-bold text-xs w-16">
+<span class="material-symbols-outlined mb-1">calendar_month</span>
+<span>Month</span>
+</button>
+<!-- Inactive Tab: Day -->
+<button class="flex flex-col items-center justify-center text-zinc-600 dark:text-zinc-400 p-2 hover:bg-pink-200 dark:hover:bg-pink-800 transition-colors active:scale-90 duration-100 font-['Epilogue'] font-bold text-xs w-16 rounded-[12px] border-[3px] border-transparent hover:border-black hover:text-black">
+<span class="material-symbols-outlined mb-1">view_day</span>
+<span>Day</span>
+</button>
+<!-- Main Action: Add (FAB Style integration in nav) -->
+<button class="flex flex-col items-center justify-center bg-primary text-white border-[3px] border-black rounded-full p-3 -mt-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-primary-container hover:text-on-primary-container transition-colors active:scale-90 duration-100 font-['Epilogue'] font-bold text-xs">
+<span class="material-symbols-outlined text-3xl font-black">add_circle</span>
+</button>
+<!-- Inactive Tab: Alerts -->
+<button class="flex flex-col items-center justify-center text-zinc-600 dark:text-zinc-400 p-2 hover:bg-pink-200 dark:hover:bg-pink-800 transition-colors active:scale-90 duration-100 font-['Epilogue'] font-bold text-xs w-16 rounded-[12px] border-[3px] border-transparent hover:border-black hover:text-black">
+<span class="material-symbols-outlined mb-1">notifications</span>
+<span>Alerts</span>
+</button>
+</nav>
+<!-- Desktop Side Navigation (Hidden on Mobile) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-24 bottom-0 w-24 bg-transparent p-4 gap-6 items-center">
+<button class="wonky-btn w-16 h-16 bg-cyan-300 flex flex-col items-center justify-center text-black rotate-[-3deg] active:scale-90">
+<span class="material-symbols-outlined text-2xl mb-1">calendar_month</span>
+</button>
+<button class="w-16 h-16 border-[3px] border-transparent hover:border-black rounded-[12px] flex flex-col items-center justify-center text-on-surface-variant hover:text-black hover:bg-pink-200 rotate-[2deg] transition-all active:scale-90">
+<span class="material-symbols-outlined text-2xl mb-1">view_day</span>
+</button>
+<button class="w-16 h-16 border-[3px] border-transparent hover:border-black rounded-[12px] flex flex-col items-center justify-center text-on-surface-variant hover:text-black hover:bg-pink-200 rotate-[-1deg] transition-all active:scale-90">
+<span class="material-symbols-outlined text-2xl mb-1">notifications</span>
+</button>
+<div class="mt-auto pb-8">
+<button class="wonky-btn w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center rotate-[5deg] hover:rotate-0 active:scale-90">
+<span class="material-symbols-outlined text-3xl font-black">add</span>
+</button>
+</div>
+</aside>
+</body></html>
