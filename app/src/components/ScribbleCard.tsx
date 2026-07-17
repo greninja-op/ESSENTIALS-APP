@@ -47,12 +47,14 @@ export function ScribbleCard({
           borderColor: borderColor ?? theme.line,
           borderWidth,
           padding,
-          transform: rotate ? [{ rotate: `${rotate}deg` }] : undefined,
-          boxShadow:
-            shadowOffset > 0
-              ? `${shadowOffset}px ${shadowOffset}px 0px ${theme.shadow}`
-              : undefined,
         },
+        // Only include transform/boxShadow keys when set. On Fabric, an
+        // explicit `transform: undefined` is coerced to null and crashes
+        // processTransform ("Cannot read property 'forEach' of null").
+        rotate ? { transform: [{ rotate: `${rotate}deg` }] } : null,
+        shadowOffset > 0
+          ? { boxShadow: `${shadowOffset}px ${shadowOffset}px 0px ${theme.shadow}` }
+          : null,
         style,
       ]}
     >

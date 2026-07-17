@@ -66,8 +66,10 @@ export function ScribbleTabBar({ state, navigation }: BottomTabBarProps) {
               borderWidth: focused ? 3 : 0,
               borderColor: theme.line,
               backgroundColor: focused ? theme.secondary : "transparent",
-              transform: focused ? [{ rotate: `${ROTATIONS[route.name]}deg` }] : undefined,
-              boxShadow: focused ? `2px 2px 0px ${theme.shadow}` : undefined,
+              // Avoid `transform: undefined` (Fabric coerces it to null and
+              // crashes processTransform). Always provide a rotate array.
+              transform: [{ rotate: focused ? `${ROTATIONS[route.name]}deg` : "0deg" }],
+              boxShadow: focused ? `2px 2px 0px ${theme.shadow}` : "0px 0px 0px transparent",
             }}
           >
             <MaterialIcons

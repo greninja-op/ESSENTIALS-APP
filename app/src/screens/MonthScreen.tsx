@@ -171,8 +171,12 @@ export function MonthScreen() {
                       opacity: cell.inMonth ? 1 : 0.45,
                       padding: 4,
                       justifyContent: "space-between",
-                      transform: isSelected ? [{ rotate: "2deg" }] : undefined,
-                      boxShadow: isSelected ? `3px 3px 0px ${theme.shadow}` : undefined,
+                      // Always provide a transform array; `undefined` becomes
+                      // null on Fabric and crashes processTransform.
+                      transform: [{ rotate: isSelected ? "2deg" : "0deg" }],
+                      boxShadow: isSelected
+                        ? `3px 3px 0px ${theme.shadow}`
+                        : "0px 0px 0px transparent",
                     }}
                   >
                     <Text
