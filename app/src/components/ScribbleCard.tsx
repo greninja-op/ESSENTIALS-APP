@@ -1,19 +1,21 @@
 import React from "react";
-import { View, ViewProps, ViewStyle } from "react-native";
+import { ViewProps, ViewStyle } from "react-native";
+import Animated, { FadeInDown, FadeOut } from "react-native-reanimated";
 import { useTheme } from "../theme/ThemeContext";
 
 interface ScribbleCardProps extends ViewProps {
-  /** Background color of the card. Defaults to the theme card color. */
   bg?: string;
-  /** Border/linework color. Defaults to the theme line color. */
   borderColor?: string;
-  /** Border thickness. Design uses 3px for cards. */
   borderWidth?: number;
-  /** Hard offset shadow size in px. 0 disables the shadow. */
   shadowOffset?: number;
-  /** Rotation in degrees for the hand-drawn feel. */
   rotate?: number;
   padding?: number;
+  /** Position in a list, used to stagger the entrance animation. */
+  index?: number;
+  /** Disable the entrance animation entirely. */
+  animateIn?: boolean;
+  /** Override the entering animation. */
+  entering?: any;
 }
 
 // Approximates the CSS "wonky-border" uneven corner radii.
@@ -31,15 +33,30 @@ export function ScribbleCard({
   shadowOffset = 4,
   rotate = 0,
   padding = 16,
+  index = 0,
+  animateIn = true,
+  entering,
   style,
   children,
   ...rest
 }: ScribbleCardProps) {
   const { theme } = useTheme();
 
+  const enter =
+    entering ??
+    (animateIn
+      ? FadeInDown.springify()
+          .damping(16)
+          .stiffness(180)
+          .mass(0.6)
+          .delay(index * 65)
+      : undefined);
+
   return (
-    <View
+    <Animated.View
       {...rest}
+      entering={enter}
+      exiting={FadeOut.duration(150)}
       style={[
         WONKY_RADIUS,
         {
@@ -48,9 +65,6 @@ export function ScribbleCard({
           borderWidth,
           padding,
         },
-        // Only include transform/boxShadow keys when set. On Fabric, an
-        // explicit `transform: undefined` is coerced to null and crashes
-        // processTransform ("Cannot read property 'forEach' of null").
         rotate ? { transform: [{ rotate: `${rotate}deg` }] } : null,
         shadowOffset > 0
           ? { boxShadow: `${shadowOffset}px ${shadowOffset}px 0px ${theme.shadow}` }
@@ -59,6 +73,6 @@ export function ScribbleCard({
       ]}
     >
       {children}
-    </View>
+    </Animated.View>
   );
 }

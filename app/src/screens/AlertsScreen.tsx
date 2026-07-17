@@ -44,6 +44,7 @@ export function AlertsScreen() {
         {upcoming.map((e, i) => (
           <ScribbleCard
             key={e.id}
+            index={i}
             bg={theme.card}
             rotate={i % 2 === 0 ? 1 : -1}
             padding={16}

@@ -17,7 +17,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function Tabs() {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        // Cross-fade + shift content when switching tabs.
+        animation: "shift",
+      }}
       tabBar={(props) => <ScribbleTabBar {...props} />}
     >
       <Tab.Screen name="Month" component={MonthScreen} />
@@ -30,9 +34,21 @@ function Tabs() {
 
 export function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        animation: "slide_from_right",
+        animationDuration: 260,
+      }}
+    >
       <Stack.Screen name="Tabs" component={Tabs} />
-      <Stack.Group screenOptions={{ presentation: "modal" }}>
+      <Stack.Group
+        screenOptions={{
+          presentation: "modal",
+          animation: "slide_from_bottom",
+          gestureEnabled: true,
+        }}
+      >
         <Stack.Screen name="NewEvent" component={NewEventScreen} />
         <Stack.Screen name="NoteEditor" component={NoteEditorScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />

@@ -4,7 +4,7 @@
       "command": "npx",
       "args": ["-y", "stitch-mcp"],
       "env": {
-        "GOOGLE_CLOUD_PROJECT": "YOUR_PROJECT_ID"
+        "GOOGLE_CLOUD_PROJECT": "essentials-502619"
       },
       "disabled": false,
       "autoApprove": [

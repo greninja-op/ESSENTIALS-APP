@@ -33,6 +33,7 @@ export function NotesScreen() {
             onPress={() => navigation.navigate("NoteEditor", { id: note.id })}
           >
             <ScribbleCard
+              index={i}
               bg={accentToColor[note.color]}
               rotate={i % 2 === 0 ? -1.5 : 1.5}
               padding={16}
